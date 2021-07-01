@@ -34,7 +34,7 @@ public class CameraController : MonoBehaviour
         camaraTransform.position = objetivoTransform.position;
         camaraTransform.Rotate(new Vector3(0, 1, 0), rotacionSobreEjeY, Space.World);
 
-        camaraTransform.Translate(new Vector3(0, 0.0f, -distanciaObjetivo));
+        camaraTransform.Translate(new Vector3(0, -1f, -distanciaObjetivo));
 
     }
 }
