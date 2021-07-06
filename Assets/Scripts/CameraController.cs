@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    private const int IZQUIERDA = 0;
-    private const int DERECHA = 1;
     private Transform camaraTransform;
+    private bool moveLeft, moveRight;
 
     public float camaraVel = 1;
     public Transform objetivoTransform;
@@ -15,26 +14,46 @@ public class CameraController : MonoBehaviour
 	void Start()
 	{
         camaraTransform = GetComponent<Camera>().transform;
+        moveLeft = moveRight = false;
 	}
 
 	void Update()
     {
-        if (Input.GetMouseButton(IZQUIERDA))
-            mover(IZQUIERDA);
-        if (Input.GetMouseButton(DERECHA))
-            mover(DERECHA);
+        if (moveLeft)
+            mover(Vector3.left);
+        if (moveRight)
+            mover(Vector3.right);
     }
 
-    private void mover(int dir)
+    private void mover(Vector3 hDir)
 	{
-        Vector3 vel = dir == DERECHA ? Vector3.right : Vector3.left;
 
-        float rotacionSobreEjeY = vel.x * 180 * Time.deltaTime * camaraVel;
+        float rotacionSobreEjeY = -hDir.x * 180 * Time.deltaTime * camaraVel;
 
         camaraTransform.position = objetivoTransform.position;
         camaraTransform.Rotate(new Vector3(0, 1, 0), rotacionSobreEjeY, Space.World);
 
-        camaraTransform.Translate(new Vector3(0, -1f, -distanciaObjetivo));
+        camaraTransform.Translate(new Vector3(0, 0f, -distanciaObjetivo));
 
+    }
+
+    public void MoveLeft()
+	{
+        moveLeft = true;
+	}
+
+    public void StopMoveLeft()
+	{
+        moveLeft = false;
+    }
+
+    public void MoveRight()
+    {
+        moveRight = true;
+    }
+
+    public void StopMoveRight()
+    {
+        moveRight = false;
     }
 }
