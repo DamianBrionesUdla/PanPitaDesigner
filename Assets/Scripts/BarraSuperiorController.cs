@@ -1,28 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BarraSuperiorController : MonoBehaviour
 {
     
     public void btnRegresar_Click()
 	{
-		Debug.Log("Regresar");
+		SceneManager.LoadScene("Diseñador");
 	}
 
 	public void btnCarrito_Click()
 	{
-		Debug.Log("Carrito");
+		SceneManager.LoadScene("EscenaCarrito");
 	}
 
 	public void btnEstado_Click()
 	{
-		Debug.Log("Estado");
+		SceneManager.LoadScene("EscenaEstado");
 	}
 
 	public void btnLogIn_Click()
 	{
-		Debug.Log("LogIn");
+		SceneManager.LoadScene("EscenaLogIn");
 	}
 
 }
