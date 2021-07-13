@@ -26,15 +26,15 @@ namespace Assets.Core.Estructuras
 			Inicio = Fin = null;
 		}
 
-		public bool esVacia()
+		public bool EsVacia()
 		{
 			return Inicio == null && Fin == null;
 		}
 
-		public void agregar(Usuario usuario)
+		public void Agregar(Usuario usuario)
 		{
 			NodoUsuario nuevo = new NodoUsuario(usuario, Fin, null);
-			if (esVacia())
+			if (EsVacia())
 			{
 				Fin = Inicio = nuevo;
 			}
@@ -45,7 +45,7 @@ namespace Assets.Core.Estructuras
 			}
 		}
 
-		public Usuario valida(String codigo, String pass)
+		public Usuario Valida(String codigo, String pass)
 		{
 			NodoUsuario aux = Inicio;
 			while (aux != null)
