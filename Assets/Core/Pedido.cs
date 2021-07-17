@@ -1,5 +1,6 @@
 ﻿using System;
 using Assets.Core.Estructuras;
+using UnityEngine;
 
 namespace Assets.Core
 {
@@ -38,6 +39,8 @@ namespace Assets.Core
         /// </summary>
         public FormaEntrega FormaDeEntrega { get; set; }
 
+        public float Precio => (ListaPostres.PrecioTotal + EsUrgente.GetPrecio() + FormaDeEntrega.GetPrecio());
+
         public static string CalcularNumeroOrden(Pedido pedido)
         {
             string set1 = pedido.Cliente.Nombre[0]
@@ -61,7 +64,7 @@ namespace Assets.Core
 
                 horasPorPastel += actual.Cantidad * urgente.GetHoraUrgente();
 
-                horasSegundoPiso += actual.Tamanio.GetHora();
+                horasSegundoPiso += actual.Cantidad * actual.Tamanio.GetHora();
             }
 
             return horasPorPastel + horasSegundoPiso + horaEntrega;

@@ -51,13 +51,20 @@ namespace Assets.Core.Estructuras
 		{
 			if (indice > Contar() - 1)
 				throw new Exception("No existe el indice " + indice + ".");
+			if (EsVacia())
+				return null;
 
 			NodoPostre aux = Inicio;
 			for (int i = 0; i <= indice; i++)
 			{
 				if (i == indice)
 				{
-					if (aux == Inicio)
+					if (aux == Inicio && aux == Fin)
+					{
+						Inicio = null;
+						Fin = null;
+					}
+					else if (aux == Inicio)
 					{
 						Inicio = aux.Siguiente;
 						aux.Siguiente.Anterior = null;
@@ -107,6 +114,20 @@ namespace Assets.Core.Estructuras
 				aux = aux.Siguiente;
 			}
 			return aux.Dato;
+		}
+
+		public void AgregarCantidad(int indice, int cantidad)
+		{
+			if (indice > Contar() - 1)
+				throw new Exception("No existe el indice " + indice + ".");
+			NodoPostre aux = Inicio;
+			for (int i = 0; i <= indice; i++)
+			{
+				if (i == indice)
+					break;
+				aux = aux.Siguiente;
+			}
+			aux.Dato.Cantidad += cantidad;
 		}
 
 		private float GetprecioTotal()

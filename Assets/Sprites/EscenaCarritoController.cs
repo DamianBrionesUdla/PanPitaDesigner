@@ -3,6 +3,7 @@ using Assets.Core.Estructuras;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.Events;
+using System;
 
 public class EscenaCarritoController : MonoBehaviour
 {
@@ -23,11 +24,22 @@ public class EscenaCarritoController : MonoBehaviour
         chkUrgente.isOn = false;
         chkDomicilio.isOn = false;
 
+    }
+
+    public void chkUrgente_ValueChanged(bool on)
+	{
+        Recargar();
+	}
+
+    public void chkDomicilo_ValueChanged(bool on)
+    {
         Recargar();
     }
 
-    private void Recargar()
+    public void Recargar()
     {
+        RecargaEvento.Invoke();
+
         postres = PanPitaDesigner.PostresActuales;
         if (postres.Contar() == 0)
         {
@@ -35,9 +47,9 @@ public class EscenaCarritoController : MonoBehaviour
             return;
         }
 
+
         CargarPedido();
 
-        RecargaEvento.Invoke();
     }
 
     private void CargarPedido()
@@ -50,15 +62,24 @@ public class EscenaCarritoController : MonoBehaviour
             FormaDeEntrega = chkDomicilio.isOn ? FormaEntrega.DOMICILIO : FormaEntrega.EN_LOCAL
         };
 
-        txtFechaMinima.text = pedidoActual.FechaEntrega.ToString();
+        txtFechaMinima.text = pedidoActual.FechaEntrega.ToString("d");
+        txtHoraMinima.text = pedidoActual.FechaEntrega.ToString("t");
+        txtTotalPostres.text = postres.PrecioTotal.ToString("0.00");
+        txtTotalPedido.text = pedidoActual.Precio.ToString("0.00");
+
+        PanPitaDesigner.PedidoActual = pedidoActual;
     }
 
-    private System.DateTime CalcularFechaEntrega()
+    private DateTime CalcularFechaEntrega()
 	{
-        return PanPitaDesigner.Pedidos.FechaUltimo.SumarHorasFechaEntrega(
-            Pedido.CalcularHorasMinimaEntrega(
-                postres, chkUrgente.isOn, chkDomicilio.isOn ? FormaEntrega.DOMICILIO : FormaEntrega.EN_LOCAL
-            )
-        );
+        int horas = Pedido.CalcularHorasMinimaEntrega(postres, chkUrgente.isOn,
+            chkDomicilio.isOn ? FormaEntrega.DOMICILIO : FormaEntrega.EN_LOCAL);
+        DateTime fecha = chkUrgente.isOn ? PanPitaDesigner.PedidosUrgentes.FechaUltimo.SumarHorasFechaEntrega(horas) : PanPitaDesigner.Pedidos.FechaUltimo.SumarHorasFechaEntrega(horas);
+        return PanPitaDesigner.Pedidos.FechaUltimo.SumarHorasFechaEntrega(horas);
+	}
+
+    public void btnContinuar_Click()
+	{
+        PanPitaDesigner.MostrarEscena("EscenaPago");
 	}
 }

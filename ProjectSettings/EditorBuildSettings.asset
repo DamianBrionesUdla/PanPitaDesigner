@@ -26,4 +26,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/EscenaUsuario.unity
     guid: 51747969fe3712a4c8c5566869224e87
+  - enabled: 1
+    path: Assets/Scenes/EscenaAdministrarUsuarios.unity
+    guid: 9e216334b9ec6b44ab975a52864dfd14
+  - enabled: 1
+    path: Assets/Scenes/EscenaPostreUsuario.unity
+    guid: d46681d58534c6849b66af3829cea729
   m_configObjects: {}

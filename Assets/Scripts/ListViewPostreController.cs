@@ -1,21 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
+using Assets.Core;
+using Assets.Core.Ext;
+using Assets.Core.Estructuras;
+using UnityEngine.UI;
 public class ListViewPostreController : MonoBehaviour
 {
 
     public Transform Content;
 
-    void Start()
-    {
-        GameObject templateObject = Content.transform.GetChild(0).gameObject; //Objeto plantilla de la lista
+    public GameObject pfPostre;
+
+
+    public void Recargar()
+	{
+
+        Content.DeleteAllChildren();
+
         GameObject actualObject;
-		for (int i = 0; i < 5; i++)
-		{
-            actualObject = Instantiate(templateObject, Content.transform);
-		}
-        Destroy(templateObject);
+        for (int i = 0; i < PanPitaDesigner.PostresActuales.Contar(); i++)
+        {
+            actualObject = Instantiate(pfPostre, Content.transform);
+            actualObject.transform.GetChild(3).GetComponent<Text>().text = i.ToString();
+        }
     }
 
 }

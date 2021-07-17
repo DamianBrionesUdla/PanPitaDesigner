@@ -56,11 +56,80 @@ namespace Assets.Core.Estructuras
 					{
 						return aux.Dato;
 					}
-					throw new Exception("Contraseña Incorrecta");
+					return null;
 				}
 				aux = aux.Siguiente;
 			}
-			throw new Exception("Usuario no encontrado");
+			return null;
+		}
+
+		public int Contar()
+		{
+			NodoUsuario aux = Inicio;
+			int cont = 0;
+			while (aux != null)
+			{
+				cont++;
+				aux = aux.Siguiente;
+			}
+			return cont;
+		}
+
+		public Usuario ValorIndice(int indice)
+		{
+			if (indice > Contar() - 1)
+				throw new Exception("No existe el indice " + indice + ".");
+			NodoUsuario aux = Inicio;
+			for (int i = 0; i <= indice; i++)
+			{
+				if (i == indice)
+					break;
+				aux = aux.Siguiente;
+			}
+			return aux.Dato;
+		}
+
+		public Usuario EliminarIndice(int indice)
+		{
+			if (indice > Contar() - 1)
+				throw new Exception("No existe el indice " + indice + ".");
+			if (EsVacia())
+				return null;
+
+			NodoUsuario aux = Inicio;
+			for (int i = 0; i <= indice; i++)
+			{
+				if (i == indice)
+				{
+					if (aux == Inicio && aux == Fin)
+					{
+						Inicio = null;
+						Fin = null;
+					}
+					else if (aux == Inicio)
+					{
+						Inicio = aux.Siguiente;
+						aux.Siguiente.Anterior = null;
+						aux.Siguiente = null;
+					}
+					else if (aux == Fin)
+					{
+						Fin = aux.Anterior;
+						aux.Anterior.Siguiente = null;
+						aux.Anterior = null;
+					}
+					else
+					{
+						aux.Anterior.Siguiente = aux.Siguiente;
+						aux.Siguiente.Anterior = aux.Anterior;
+						aux.Siguiente = null;
+						aux.Anterior = null;
+					}
+					break;
+				}
+				aux = aux.Siguiente;
+			}
+			return aux.Dato;
 		}
 	}
 }

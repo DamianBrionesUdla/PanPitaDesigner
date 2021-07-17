@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Assets.Core.Estructuras
 {
@@ -99,7 +100,7 @@ namespace Assets.Core.Estructuras
         {
             if (EsVacia())
             {
-                return DateTime.Today;
+                return DateTime.Now;
             }
 
             return Fin.Dato.FechaEntrega;
@@ -139,6 +140,59 @@ namespace Assets.Core.Estructuras
                 aux = aux.Siguiente;
             }
             return aux.Dato;
+        }
+
+        public ListaPedidos Donde(System.Func<Pedido, bool> expresion)
+		{
+            ListaPedidos retorno = new ListaPedidos();
+
+            NodoPedido aux = Inicio;
+            while (aux != null)
+			{
+                if (expresion(aux.Dato))
+                    retorno.Agregar(aux.Dato);
+                aux = aux.Siguiente;
+			}
+
+            return retorno;
+		}
+
+        public Pedido EliminarObjeto(Pedido objeto)
+        {
+            NodoPedido aux = Inicio;
+            while (aux != null)
+            {
+                if (objeto.Equals(aux.Dato))
+                {
+                    if (aux == Inicio && aux == Fin)
+                    {
+                        Inicio = null;
+                        Fin = null;
+                    }
+                    else if (aux == Inicio)
+                    {
+                        Inicio = aux.Siguiente;
+                        aux.Siguiente.Anterior = null;
+                        aux.Siguiente = null;
+                    }
+                    else if (aux == Fin)
+                    {
+                        Fin = aux.Anterior;
+                        aux.Anterior.Siguiente = null;
+                        aux.Anterior = null;
+                    }
+                    else
+                    {
+                        aux.Anterior.Siguiente = aux.Siguiente;
+                        aux.Siguiente.Anterior = aux.Anterior;
+                        aux.Siguiente = null;
+                        aux.Anterior = null;
+                    }
+                    break;
+                }
+                aux = aux.Siguiente;
+            }
+            return aux?.Dato;
         }
     }
 }

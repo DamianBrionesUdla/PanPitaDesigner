@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Assets.Core
 {
@@ -46,12 +47,7 @@ namespace Assets.Core
 		/// <summary>
 		/// Sabor de Fresa
 		/// </summary>
-		FRESA,
-
-		/// <summary>
-		/// Sabor Triple (Chocolate, Fresa, Vainilla)
-		/// </summary>
-		TRIPLE
+		FRESA
 	}
 
 	/// <summary>
@@ -132,12 +128,7 @@ namespace Assets.Core
 		/// <summary>
 		/// Fresas
 		/// </summary>
-		FRESAS,
-
-		/// <summary>
-		/// Crema
-		/// </summary>
-		CREMA
+		FRESAS
 	}
 
 	/// <summary>
@@ -368,12 +359,19 @@ namespace Assets.Core
 
 		#region Urgente
 
-		public const int HoraUrgente = 8;
-		public const int HoraNoUrgente = 6;
+		public const int HoraUrgente = 6;
+		public const int HoraNoUrgente = 8;
+
+		public const float PrecioUrgente = 8.0f;
 
 		public static int GetHoraUrgente(this bool urgente)
 		{
 			return urgente ? HoraUrgente : HoraNoUrgente;
+		}
+
+		public static float GetPrecio(this bool urgente)
+		{
+			return urgente ? PrecioUrgente : 0;
 		}
 
 		#endregion
@@ -388,29 +386,36 @@ namespace Assets.Core
 		/// <returns> nueva fecha con horas sumadas </returns>
 		public static DateTime SumarHorasFechaEntrega(this DateTime fecha, int horas)
 		{
-			DateTime fechaResultado = fecha.Date;
+			DateTime fechaResultado = new DateTime(
+				fecha.Year,
+				fecha.Month,
+				fecha.Day,
+				fecha.Hour,
+				0,
+				0
+			);
 
 			int horaInicio = PanPitaDesigner.HoraInicioJornada;
 			int maximo = PanPitaDesigner.HorasPorJornada;
 
-			if (fechaResultado.Hour > (horaInicio + maximo))
+			if (fechaResultado.Hour >= (horaInicio + maximo))
 			{
-				int sobra = fecha.Hour - (horaInicio + maximo);
-				fechaResultado.AddDays(1);
-				fechaResultado = new DateTime(fechaResultado.Year, fechaResultado.Month, fechaResultado.Day, 
-					horaInicio + sobra, 0, 0);
+				fechaResultado = new DateTime(fechaResultado.Year, fechaResultado.Month, fechaResultado.Day + 1, 
+					horaInicio, 0, 0);
 			}
 
 			if (fechaResultado.Hour + horas > (horaInicio + maximo))
 			{
-				int sobra = (fechaResultado.Hour + horas) % (maximo);
-				fechaResultado.AddDays((fechaResultado.Hour + horas) / (horaInicio + maximo));
-				fechaResultado = new DateTime(fechaResultado.Year, fechaResultado.Month, fechaResultado.Day, 
+				int sobra = (fechaResultado.Hour + horas) % (horaInicio + maximo);
+				int dias = fechaResultado.Day + ((fechaResultado.Hour + horas) / (horaInicio + maximo));
+				fechaResultado = new DateTime(fechaResultado.Year, fechaResultado.Month, dias, 
 					horaInicio + sobra, 0, 0);
+				horas = sobra;
 			}
 			else
 			{
-				fechaResultado.AddHours(horas);
+				fechaResultado = new DateTime(fechaResultado.Year, fechaResultado.Month, fechaResultado.Day,
+					fechaResultado.Hour + horas, 0, 0);
 			}
 
 			if (fechaResultado.Day > MaximoMes(fechaResultado.Month))
