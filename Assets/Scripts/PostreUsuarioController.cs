@@ -32,6 +32,6 @@ public class PostreUsuarioController : MonoBehaviour
     public void Click(PointerEventData data)
 	{
         int index = Convert.ToInt32(transform.GetChild(3).GetComponent<Text>().text);
-        transform.parent.parent.parent.parent.GetComponent<EscenaPostreUsuarioController>().Cargar(index);
+        transform.parent.parent.parent.parent.parent.GetComponent<EscenaPostreUsuarioController>().Cargar(index);
     }
 }

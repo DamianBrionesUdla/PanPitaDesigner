@@ -3,6 +3,15 @@ using UnityEngine;
 
 namespace Assets.Core
 {
+	public enum Estado
+	{
+		SIN_INICIAR,
+		INICIADO,
+		EN_PROCESO,
+		POR_ENTREGAR,
+		FINALIZADO
+	}
+
 	/// <summary>
 	/// Tipo Masa.
 	/// </summary>
@@ -406,8 +415,8 @@ namespace Assets.Core
 
 			if (fechaResultado.Hour + horas > (horaInicio + maximo))
 			{
-				int sobra = (fechaResultado.Hour + horas) % (horaInicio + maximo);
-				int dias = fechaResultado.Day + ((fechaResultado.Hour + horas) / (horaInicio + maximo));
+				int sobra = (fechaResultado.Hour + horas) % (/*horaInicio +*/ maximo);
+				int dias = fechaResultado.Day + ((fechaResultado.Hour + horas) / (/*horaInicio +*/ maximo));
 				fechaResultado = new DateTime(fechaResultado.Year, fechaResultado.Month, dias, 
 					horaInicio + sobra, 0, 0);
 				horas = sobra;

@@ -75,7 +75,7 @@ public class EscenaCarritoController : MonoBehaviour
         int horas = Pedido.CalcularHorasMinimaEntrega(postres, chkUrgente.isOn,
             chkDomicilio.isOn ? FormaEntrega.DOMICILIO : FormaEntrega.EN_LOCAL);
         DateTime fecha = chkUrgente.isOn ? PanPitaDesigner.PedidosUrgentes.FechaUltimo.SumarHorasFechaEntrega(horas) : PanPitaDesigner.Pedidos.FechaUltimo.SumarHorasFechaEntrega(horas);
-        return PanPitaDesigner.Pedidos.FechaUltimo.SumarHorasFechaEntrega(horas);
+        return fecha;
 	}
 
     public void btnContinuar_Click()

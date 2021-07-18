@@ -43,39 +43,53 @@ public class ListViewPedidoController : MonoBehaviour
     public void btnFiltroNombre_Click()
     {
         PanPitaDesigner.PedidosFiltrados = null;
-        if (txtFiltroNombre.text.Equals(string.Empty))
-        Filtrar(PanPitaDesigner.Pedidos.Donde(p =>
-                p.Cliente.Nombre.Equals(txtFiltroNombre.text)));
+        if (!txtFiltroNombre.text.Equals(string.Empty))
+        {
+            ListaPedidos filtro = PanPitaDesigner.Urgentes ? PanPitaDesigner.PedidosUrgentes.Donde(p => p.Cliente.Nombre.Equals(txtFiltroNombre.text))
+                : PanPitaDesigner.Pedidos.Donde(p => p.Cliente.Nombre.Equals(txtFiltroNombre.text));
+            Filtrar(filtro);
+        }
+        Recargar();
 	}
     public void btnFiltroCedula_Click()
     {
         PanPitaDesigner.PedidosFiltrados = null;
-        if (txtFiltroCedula.text.Equals(string.Empty))
-            Filtrar(PanPitaDesigner.Pedidos.Donde(p =>
-                p.Cliente.Identificacion.Equals(txtFiltroCedula.text)));
+        if (!txtFiltroCedula.text.Equals(string.Empty))
+        {
+            ListaPedidos filtro = PanPitaDesigner.Urgentes ? PanPitaDesigner.PedidosUrgentes.Donde(p => p.Cliente.Identificacion.Equals(txtFiltroCedula.text))
+                : PanPitaDesigner.Pedidos.Donde(p => p.Cliente.Identificacion.Equals(txtFiltroCedula.text));
+            Filtrar(filtro);
+        }
+        Recargar();
     }
 
     public void btnFiltroFecha_Click()
     {
         PanPitaDesigner.PedidosFiltrados = null;
-        if (txtFiltroFecha.text.Equals(string.Empty))
-            Filtrar(PanPitaDesigner.Pedidos.Donde(p =>
-                p.FechaEntrega.ToString().Contains(txtFiltroFecha.text)));
+        if (!txtFiltroFecha.text.Equals(string.Empty))
+        {
+            ListaPedidos filtro = PanPitaDesigner.Urgentes ? PanPitaDesigner.PedidosUrgentes.Donde(p => p.FechaEntrega.ToString().Contains(txtFiltroFecha.text))
+                : PanPitaDesigner.Pedidos.Donde(p => p.FechaEntrega.ToString().Contains(txtFiltroFecha.text));
+            Filtrar(filtro);
+        }
+        Recargar();
     }
 
     public void btnFiltroPrecio_Click()
     {
         PanPitaDesigner.PedidosFiltrados = null;
-        if (txtFiltroPrecio.text.Equals(string.Empty))
-            Filtrar(PanPitaDesigner.Pedidos.Donde(p =>
-            p.Precio <= Convert.ToDouble(txtFiltroPrecio.text)+1 &&
-            p.Precio >= Convert.ToDouble(txtFiltroPrecio.text)-1));
+        if (!txtFiltroPrecio.text.Equals(string.Empty))
+		{
+            ListaPedidos filtro = PanPitaDesigner.Urgentes ? PanPitaDesigner.PedidosUrgentes.Donde(p => p.Precio <= Convert.ToDouble(txtFiltroPrecio.text) + 1 && p.Precio >= Convert.ToDouble(txtFiltroPrecio.text) - 1)
+                : PanPitaDesigner.Pedidos.Donde(p => p.Precio <= Convert.ToDouble(txtFiltroPrecio.text) + 1 && p.Precio >= Convert.ToDouble(txtFiltroPrecio.text) - 1);
+            Filtrar(filtro);
+        }
+        Recargar();
     }
 
     private void Filtrar(ListaPedidos lista)
 	{
         PanPitaDesigner.PedidosFiltrados = lista;
-        Recargar();
     }
 
 }

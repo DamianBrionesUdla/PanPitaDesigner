@@ -39,6 +39,8 @@ namespace Assets.Core
         /// </summary>
         public FormaEntrega FormaDeEntrega { get; set; }
 
+        public Estado Estado { get; set; }
+
         public float Precio => (ListaPostres.PrecioTotal + EsUrgente.GetPrecio() + FormaDeEntrega.GetPrecio());
 
         public static string CalcularNumeroOrden(Pedido pedido)

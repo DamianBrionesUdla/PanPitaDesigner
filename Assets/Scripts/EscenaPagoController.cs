@@ -62,7 +62,7 @@ public class EscenaPagoController : MonoBehaviour
                 PanPitaDesigner.PedidosUrgentes.Agregar(PanPitaDesigner.PedidoActual);
             else
                 PanPitaDesigner.Pedidos.Agregar(PanPitaDesigner.PedidoActual);
-            PanPitaDesigner.RegresarInicio();
+            PanPitaDesigner.MostrarEscena("NumeroOrden");
         }
 
 	}
